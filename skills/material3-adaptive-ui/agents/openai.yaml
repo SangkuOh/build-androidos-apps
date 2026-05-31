@@ -1,0 +1,4 @@
+interface:
+  display_name: "Material 3 Adaptive UI"
+  short_description: "Build adaptive Material 3 Compose UI"
+  default_prompt: "Use $material3-adaptive-ui to implement or review this adaptive Material 3 Compose feature."

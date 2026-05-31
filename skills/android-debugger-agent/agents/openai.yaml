@@ -1,0 +1,4 @@
+interface:
+  display_name: "Android Debugger Agent"
+  short_description: "Build, launch, and debug Android apps"
+  default_prompt: "Use $android-debugger-agent to build, launch, and inspect the current Android app on a booted emulator."

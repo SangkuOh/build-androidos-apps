@@ -1,0 +1,4 @@
+interface:
+  display_name: "Compose UI Patterns"
+  short_description: "Apply practical Jetpack Compose UI patterns"
+  default_prompt: "Use $compose-ui-patterns to design or refactor this Jetpack Compose UI with strong Android defaults."

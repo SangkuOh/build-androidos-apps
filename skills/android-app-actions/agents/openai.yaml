@@ -1,0 +1,4 @@
+interface:
+  display_name: "Android App Actions"
+  short_description: "Expose Android shortcuts and Assistant actions"
+  default_prompt: "Use $android-app-actions to expose a focused Android shortcut, deep link, or Assistant App Action."

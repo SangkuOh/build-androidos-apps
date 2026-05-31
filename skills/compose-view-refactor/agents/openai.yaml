@@ -1,0 +1,4 @@
+interface:
+  display_name: "Compose View Refactor"
+  short_description: "Refactor large Jetpack Compose screens"
+  default_prompt: "Use $compose-view-refactor to clean up and split this Compose screen without changing its behavior."

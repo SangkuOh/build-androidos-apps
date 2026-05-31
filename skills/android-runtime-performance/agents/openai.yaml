@@ -1,0 +1,4 @@
+interface:
+  display_name: "Android Runtime Performance"
+  short_description: "Profile Android startup, jank, and CPU cost"
+  default_prompt: "Use $android-runtime-performance to capture focused Android performance evidence and identify expensive work."

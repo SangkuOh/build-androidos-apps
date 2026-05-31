@@ -1,0 +1,4 @@
+interface:
+  display_name: "Compose Performance Audit"
+  short_description: "Audit Jetpack Compose runtime performance"
+  default_prompt: "Use $compose-performance-audit to review this Compose code for recomposition, layout, and scrolling costs."

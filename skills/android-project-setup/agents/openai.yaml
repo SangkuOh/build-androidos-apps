@@ -1,0 +1,4 @@
+interface:
+  display_name: "Android Project Setup"
+  short_description: "Set up modern Kotlin and Compose Android projects"
+  default_prompt: "Use $android-project-setup to configure this Android project with current Kotlin, Compose, and Gradle conventions."

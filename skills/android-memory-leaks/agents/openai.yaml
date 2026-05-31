@@ -1,0 +1,4 @@
+interface:
+  display_name: "Android Memory Leaks"
+  short_description: "Capture and prove Android memory leaks"
+  default_prompt: "Use $android-memory-leaks to capture Android memory evidence, identify retention paths, and verify a leak fix."

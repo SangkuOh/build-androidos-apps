@@ -4,9 +4,8 @@
 development with Kotlin, Jetpack Compose, Material 3, Gradle, adb, emulator
 workflows, performance profiling, and memory investigation.
 
-The plugin is modeled after the role-based workflow design of the curated
-`Build iOS Apps` plugin. It does not translate Apple APIs directly. Instead, it
-maps each development responsibility to Android-native tools and conventions.
+The plugin organizes each development responsibility around Android-native
+tools and conventions.
 
 ## What This Plugin Is
 
@@ -61,28 +60,6 @@ A single task can activate more than one skill. For example:
   `android-debugger-agent`
 - an Assistant entry point can use `android-app-actions` and the project's
   existing navigation layer
-
-## Relationship To Build iOS Apps
-
-The Android plugin mirrors the development roles covered by `Build iOS Apps`
-while using Android-native tooling and platform conventions.
-
-| Build iOS Apps role | Build AndroidOS Apps skill | Android adaptation |
-| --- | --- | --- |
-| `ios-debugger-agent` | `android-debugger-agent` | Uses the Gradle wrapper, adb, UI Automator, screenshots, UI trees, logcat, emulators, and connected devices |
-| `ios-ettrace-performance` | `android-runtime-performance` | Uses Macrobenchmark, Baseline Profiles, Perfetto, Simpleperf, `gfxinfo`, and optional `heapprofd` reports |
-| `ios-memgraph-leaks` | `android-memory-leaks` | Uses `dumpsys meminfo`, Android-format HPROF heap dumps, Android Studio Profiler, Shark or LeakCanary when appropriate, and native allocation traces |
-| `swiftui-performance-audit` | `compose-performance-audit` | Reviews recomposition scope, state reads, lazy-list identity, composition-time work, layout, draw, and image pressure before profiling |
-| `swiftui-ui-patterns` | `compose-ui-patterns` | Applies state hoisting, unidirectional data flow, screen-level ViewModels, lifecycle-aware `StateFlow` collection, navigation, effects, previews, and accessibility |
-| `swiftui-view-refactor` | `compose-view-refactor` | Splits large composables, separates route wiring from rendering, tightens state ownership, stabilizes lazy content, and removes composition-time work |
-| `swiftui-liquid-glass` | `material3-adaptive-ui` | Covers Material 3, edge-to-edge insets, window size classes, large screens, foldables, adaptive panes, and accessible input behavior |
-| `ios-app-intents` | `android-app-actions` | Covers deep links, verified App Links, static and dynamic shortcuts, pinned shortcuts, and Assistant App Actions |
-
-Android also needs an explicit build-system workflow:
-
-| Additional Android skill | Why it exists |
-| --- | --- |
-| `android-project-setup` | Android projects require deliberate Gradle, AGP, built-in Kotlin, Compose BOM, JDK, SDK, version-catalog, and annotation-processing decisions |
 
 ## Included Skills
 

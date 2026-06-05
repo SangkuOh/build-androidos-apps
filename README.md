@@ -1,8 +1,9 @@
 # Build AndroidOS Apps
 
 `Build AndroidOS Apps` is a Codex plugin for modern Android application
-development with Kotlin, Jetpack Compose, Material 3, Gradle, adb, emulator
-browser previews, performance profiling, and memory investigation.
+development with Kotlin, Jetpack Compose, Material 3, Gradle, adb, visible
+Codex side-panel emulator previews, performance profiling, and memory
+investigation.
 
 The plugin organizes each development responsibility around Android-native
 tools and conventions.
@@ -24,8 +25,8 @@ designed to help Codex:
 - expose shortcuts, deep links, App Links, and App Actions through a coherent
   routing model
 - build, install, launch, inspect, and debug apps on an explicit adb target
-- mirror a booted Android emulator or device into the Codex in-app browser for
-  visual preview and light interaction
+- mirror a booted Android emulator or device into the visible Codex side-panel
+  browser for visual preview and light interaction
 - audit Compose code before collecting runtime performance traces
 - choose Macrobenchmark, Baseline Profiles, Perfetto, Simpleperf, or `gfxinfo`
   according to the question
@@ -63,6 +64,13 @@ A single task can activate more than one skill. For example:
   `android-debugger-agent`
 - an Assistant entry point can use `android-app-actions` and the project's
   existing navigation layer
+
+## Current Release
+
+`v0.1.2` makes the Android browser mirror explicitly side-panel visible. The
+`android-emulator-browser` helper now prints the exact URL to open in the
+visible Codex side-panel browser, and the skill requires browser visibility
+before reporting preview success.
 
 ## Included Skills
 
@@ -151,8 +159,8 @@ Strong defaults:
 
 ### `android-emulator-browser`
 
-Mirror a booted Android emulator or connected adb device into the Codex in-app
-browser.
+Mirror a booted Android emulator or connected adb device into the visible Codex
+side-panel browser.
 
 Use it for:
 
@@ -174,8 +182,9 @@ node skills/android-emulator-browser/scripts/android-emulator-browser.mjs \
   --serial "$SERIAL"
 ```
 
-Open the exact local URL printed by the bridge in the Codex in-app browser and
-confirm that a real Android frame is rendering before reporting success.
+Open the exact local URL printed by the bridge in the visible Codex side-panel
+browser and confirm that a real Android frame is rendering before reporting
+success.
 
 Strong defaults:
 
@@ -509,8 +518,8 @@ Expected workflow:
 Example prompt:
 
 ```text
-Launch the debug app on an emulator and show it in the Codex browser while I
-review the Compose screen.
+Launch the debug app on an emulator and show it in the Codex side-panel browser
+while I review the Compose screen.
 ```
 
 Expected workflow:
@@ -520,7 +529,7 @@ Expected workflow:
 3. Launch the target package or activity.
 4. Start `android-emulator-browser.mjs --serial <adb-serial>` in a long-running
    terminal.
-5. Open the printed localhost URL in the Codex in-app browser.
+5. Open the printed localhost URL in the visible Codex side-panel browser.
 6. Verify a real Android frame is rendering, then use browser-visible proof for
    the closeout.
 
@@ -626,8 +635,8 @@ node skills/android-emulator-browser/scripts/android-emulator-browser.mjs \
 ```
 
 Serves a local browser UI that refreshes adb screenshots and forwards basic
-tap, swipe, text, and key input through adb. Open the printed URL in the Codex
-in-app browser.
+tap, swipe, text, and key input through adb. Open the printed URL in the visible
+Codex side-panel browser.
 
 For a clean emulator validation run, use an explicit adb target and keep the
 bridge in its own long-running terminal:
@@ -735,6 +744,14 @@ Install the plugin from the configured personal marketplace:
 ```bash
 codex plugin add build-androidos-apps@personal
 codex plugin list
+```
+
+To update an existing local install:
+
+```bash
+git -C ~/plugins/build-androidos-apps pull --ff-only
+codex plugin remove build-androidos-apps@personal
+codex plugin add build-androidos-apps@personal
 ```
 
 Start a new Codex thread after installation so the new plugin skills are

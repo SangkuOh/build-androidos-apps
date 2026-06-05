@@ -1,6 +1,6 @@
 {
   "name": "build-androidos-apps",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Build Android apps with workflows for Kotlin and Compose setup, Material 3 UI, refactors, App Actions, emulator browser previews, debugging, performance profiling, and leak investigation.",
   "author": {
     "name": "SangkuOh",
@@ -27,7 +27,7 @@
   "interface": {
     "displayName": "Build AndroidOS Apps",
     "shortDescription": "Build, preview, refine, profile, and debug Android apps with Kotlin, Compose, Material 3, and Gradle",
-    "longDescription": "Use Build AndroidOS Apps to set up current Kotlin and Jetpack Compose projects, build Material 3 adaptive UI, refactor Compose screens, expose shortcuts and App Actions, mirror Android emulators in the Codex in-app browser, audit runtime performance, capture Macrobenchmark and Perfetto evidence, investigate memory leaks, and debug apps on Android emulators or connected devices with Gradle and adb workflows.",
+    "longDescription": "Use Build AndroidOS Apps to set up current Kotlin and Jetpack Compose projects, build Material 3 adaptive UI, refactor Compose screens, expose shortcuts and App Actions, mirror Android emulators in the visible Codex side-panel browser, audit runtime performance, capture Macrobenchmark and Perfetto evidence, investigate memory leaks, and debug apps on Android emulators or connected devices with Gradle and adb workflows.",
     "developerName": "SangkuOh",
     "category": "Developer Tools",
     "capabilities": [

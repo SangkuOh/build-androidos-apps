@@ -31,8 +31,10 @@ async function main() {
 
   server.listen(options.port ?? DEFAULT_PORT, "127.0.0.1", () => {
     const address = server.address();
+    const previewUrl = `http://127.0.0.1:${address.port}/`;
     console.log(`android-emulator-browser ready for ${serial}`);
-    console.log(`Preview at http://127.0.0.1:${address.port}`);
+    console.log(`Preview at ${previewUrl}`);
+    console.log(`Open this exact URL in the visible Codex side-panel browser: ${previewUrl}`);
   });
 
   for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
@@ -83,7 +85,7 @@ function readValue(argv, index, flag) {
 function printHelp() {
   console.log(`android-emulator-browser
 
-Mirror a booted Android emulator or connected adb device in a browser.
+Mirror a booted Android emulator or connected adb device in the visible Codex side-panel browser.
 
 Usage:
   android-emulator-browser --serial <adb-serial> [--port 3277]

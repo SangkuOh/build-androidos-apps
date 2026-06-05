@@ -1,6 +1,6 @@
 ---
 name: android-emulator-browser
-description: Mirror an Android emulator or connected adb device into the Codex in-app browser with adb screenshots and input forwarding. Use when a user wants to watch or interact with an Android app in the browser, capture browser-visible emulator proof, or keep an Android preview visible inside Codex while iterating on a Compose UI.
+description: Mirror an Android emulator or connected adb device into the visible Codex side-panel browser with adb screenshots and input forwarding. Use when a user wants to watch or interact with an Android app in the browser, capture browser-visible emulator proof, or keep an Android preview visible inside Codex while iterating on a Compose UI.
 ---
 
 # Android Emulator Browser
@@ -8,7 +8,7 @@ description: Mirror an Android emulator or connected adb device into the Codex i
 ## Browser Workflow
 
 Use this workflow when the user wants an Android app or emulator preview inside
-the Codex in-app browser.
+the visible Codex side-panel browser.
 
 1. Select one explicit adb target:
 
@@ -38,7 +38,18 @@ the Codex in-app browser.
    The bridge prints a local URL such as `http://127.0.0.1:3277`. Keep this
    terminal alive while the browser mirror is in use.
 
-4. Open the exact local URL printed by the bridge in the Codex in-app browser.
+4. Open the exact local URL printed by the bridge in the visible Codex
+   side-panel browser. This is a required handoff:
+
+   - Load the Browser plugin's `control-in-app-browser` skill.
+   - Use the in-app browser API, select or create a tab, call the browser
+     visibility capability with `set(true)`, and navigate that tab to the exact
+     local URL printed by the bridge.
+   - Do not use macOS `open`, a separate desktop browser, or standalone
+     headless browser automation as a substitute for the user-visible side
+     panel.
+   - Do not report Android preview success until the side panel is visible on
+     the bridge URL.
 
 5. Verify that a real Android frame is rendering before reporting success. A
    loaded page alone is not proof that the emulator stream is healthy.
@@ -68,6 +79,6 @@ the Codex in-app browser.
 
 ## Proof
 
-For browser or preview QA, capture a browser screenshot showing the Android
-frame. If the task involved UI interaction, also report the adb serial, app
-variant, launched package/activity, and the replayed flow.
+For browser or preview QA, capture a side-panel browser screenshot showing the
+Android frame. If the task involved UI interaction, also report the adb serial,
+app variant, launched package/activity, and the replayed flow.

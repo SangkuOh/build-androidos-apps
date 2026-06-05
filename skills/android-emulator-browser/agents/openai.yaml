@@ -1,0 +1,4 @@
+interface:
+  display_name: "Android Emulator Browser"
+  short_description: "Mirror Android emulator previews in the Codex browser"
+  default_prompt: "Use $android-emulator-browser to show and interact with a booted Android emulator in the Codex in-app browser."

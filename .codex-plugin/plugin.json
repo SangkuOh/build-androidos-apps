@@ -1,7 +1,7 @@
 {
   "name": "build-androidos-apps",
-  "version": "0.1.0",
-  "description": "Build Android apps with workflows for Kotlin and Compose setup, Material 3 UI, refactors, App Actions, emulator debugging, performance profiling, and leak investigation.",
+  "version": "0.1.1",
+  "description": "Build Android apps with workflows for Kotlin and Compose setup, Material 3 UI, refactors, App Actions, emulator browser previews, debugging, performance profiling, and leak investigation.",
   "author": {
     "name": "SangkuOh",
     "url": "https://github.com/SangkuOh"
@@ -17,6 +17,8 @@
     "gradle",
     "adb",
     "emulator",
+    "previews",
+    "codex-browser",
     "app-actions",
     "performance",
     "debugging"
@@ -24,8 +26,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Build AndroidOS Apps",
-    "shortDescription": "Build, refine, profile, and debug Android apps with Kotlin, Compose, Material 3, and Gradle",
-    "longDescription": "Use Build AndroidOS Apps to set up current Kotlin and Jetpack Compose projects, build Material 3 adaptive UI, refactor Compose screens, expose shortcuts and App Actions, audit runtime performance, capture Macrobenchmark and Perfetto evidence, investigate memory leaks, and debug apps on Android emulators or connected devices with Gradle and adb workflows.",
+    "shortDescription": "Build, preview, refine, profile, and debug Android apps with Kotlin, Compose, Material 3, and Gradle",
+    "longDescription": "Use Build AndroidOS Apps to set up current Kotlin and Jetpack Compose projects, build Material 3 adaptive UI, refactor Compose screens, expose shortcuts and App Actions, mirror Android emulators in the Codex in-app browser, audit runtime performance, capture Macrobenchmark and Perfetto evidence, investigate memory leaks, and debug apps on Android emulators or connected devices with Gradle and adb workflows.",
     "developerName": "SangkuOh",
     "category": "Developer Tools",
     "capabilities": [
@@ -35,7 +37,7 @@
     ],
     "websiteURL": "https://github.com/SangkuOh/build-androidos-apps",
     "defaultPrompt": [
-      "Build or debug an Android app with Kotlin, Jetpack Compose, Material 3, and an emulator."
+      "Build, preview, or debug an Android app with Kotlin, Jetpack Compose, Material 3, and an emulator."
     ],
     "brandColor": "#3DDC84",
     "composerIcon": "./assets/build-androidos-apps-small.svg",

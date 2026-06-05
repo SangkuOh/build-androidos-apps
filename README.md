@@ -2,7 +2,7 @@
 
 `Build AndroidOS Apps` is a Codex plugin for modern Android application
 development with Kotlin, Jetpack Compose, Material 3, Gradle, adb, emulator
-workflows, performance profiling, and memory investigation.
+browser previews, performance profiling, and memory investigation.
 
 The plugin organizes each development responsibility around Android-native
 tools and conventions.
@@ -24,6 +24,8 @@ designed to help Codex:
 - expose shortcuts, deep links, App Links, and App Actions through a coherent
   routing model
 - build, install, launch, inspect, and debug apps on an explicit adb target
+- mirror a booted Android emulator or device into the Codex in-app browser for
+  visual preview and light interaction
 - audit Compose code before collecting runtime performance traces
 - choose Macrobenchmark, Baseline Profiles, Perfetto, Simpleperf, or `gfxinfo`
   according to the question
@@ -55,7 +57,8 @@ A single task can activate more than one skill. For example:
 - a new large-screen settings flow can use `compose-ui-patterns`,
   `material3-adaptive-ui`, and `android-project-setup`
 - a janky scrolling issue can use `compose-performance-audit`,
-  `android-runtime-performance`, and `android-debugger-agent`
+  `android-runtime-performance`, `android-debugger-agent`, and
+  `android-emulator-browser` for browser-visible proof
 - a retained activity can use `android-memory-leaks` and
   `android-debugger-agent`
 - an Assistant entry point can use `android-app-actions` and the project's
@@ -145,6 +148,48 @@ Strong defaults:
 - prefer Compose semantic matchers and test tags for stable automated UI tests
 - use a physical device when hardware, OEM behavior, or representative
   performance matters
+
+### `android-emulator-browser`
+
+Mirror a booted Android emulator or connected adb device into the Codex in-app
+browser.
+
+Use it for:
+
+- keeping an Android runtime preview visible inside Codex
+- interacting with an emulator through browser clicks, key buttons, and text
+  input
+- capturing browser-visible proof after UI changes
+- reviewing Compose UI in a running preview, sample, debug, or host activity
+- pairing visual preview with `android-debugger-agent` screenshots, UI trees,
+  and logcat
+
+The workflow follows the same operational shape as the latest iOS simulator
+browser skill:
+
+```bash
+adb devices -l
+SERIAL="<adb-serial>"
+node skills/android-emulator-browser/scripts/android-emulator-browser.mjs \
+  --serial "$SERIAL"
+```
+
+Open the exact local URL printed by the bridge in the Codex in-app browser and
+confirm that a real Android frame is rendering before reporting success.
+
+Strong defaults:
+
+- select one adb serial explicitly when multiple targets are attached
+- build, install, and launch the app before mirroring unless the current device
+  state is the target
+- keep the bridge terminal alive while the preview is open
+- treat the browser bridge as visual proof and light interaction; use UI
+  Automator and logcat for structural debugging
+- use a physical device for hardware-specific behavior
+
+Current `serve-sim` releases are Apple Simulator-oriented. For Android browser
+previews, this plugin provides a bundled adb-based bridge instead of calling
+`serve-sim` directly against an adb serial.
 
 ### `android-app-actions`
 
@@ -459,6 +504,26 @@ Expected workflow:
 6. Collect app-pid and crash-buffer logcat evidence.
 7. Patch and replay the same flow.
 
+### Preview An Android App In Codex
+
+Example prompt:
+
+```text
+Launch the debug app on an emulator and show it in the Codex browser while I
+review the Compose screen.
+```
+
+Expected workflow:
+
+1. Load `android-debugger-agent` and `android-emulator-browser`.
+2. Select or boot one adb target and install the requested variant.
+3. Launch the target package or activity.
+4. Start `android-emulator-browser.mjs --serial <adb-serial>` in a long-running
+   terminal.
+5. Open the printed localhost URL in the Codex in-app browser.
+6. Verify a real Android frame is rendering, then use browser-visible proof for
+   the closeout.
+
 ### Add An External Action
 
 Example prompt:
@@ -553,6 +618,33 @@ skills/android-memory-leaks/scripts/capture_android_memory.sh \
 Captures `dumpsys meminfo` output and pulls an Android-format HPROF heap dump
 from a running app.
 
+### Mirror An Android Emulator In The Browser
+
+```bash
+node skills/android-emulator-browser/scripts/android-emulator-browser.mjs \
+  --serial <adb-serial>
+```
+
+Serves a local browser UI that refreshes adb screenshots and forwards basic
+tap, swipe, text, and key input through adb. Open the printed URL in the Codex
+in-app browser.
+
+For a clean emulator validation run, use an explicit adb target and keep the
+bridge in its own long-running terminal:
+
+```bash
+emulator -avd <avd-name> -no-window -no-audio -no-boot-anim -no-snapshot
+adb -s <adb-serial> wait-for-device
+adb -s <adb-serial> shell getprop sys.boot_completed
+node skills/android-emulator-browser/scripts/android-emulator-browser.mjs \
+  --serial <adb-serial>
+```
+
+The browser page should show a real Android frame, not just a loaded localhost
+shell. Validate at least one input path, such as tapping a launcher icon or
+pressing the page's Home button and confirming the focused Android activity
+with `dumpsys window`.
+
 ### Summarize Simpleperf Hotspots
 
 ```bash
@@ -598,6 +690,7 @@ Typical requirements:
 | --- | --- |
 | Build | Project Gradle wrapper, compatible JDK, Android SDK platforms, and Build Tools |
 | Device debugging | SDK platform-tools, adb, a booted emulator or connected device |
+| Browser preview | Node.js, adb, a booted emulator or connected device that supports `screencap` and `input` |
 | UI inspection | UI Automator dump support, screenshots, Compose semantics, and optional instrumented UI tests |
 | Performance | Macrobenchmark module, profileable app variant, Perfetto, Simpleperf, and a physical device for representative metrics |
 | Memory | `dumpsys meminfo`, heap-dump support, Android Studio Profiler, optional Shark or LeakCanary, and Perfetto `heapprofd` for native allocations |
@@ -661,6 +754,7 @@ available to the conversation.
 |-- skills/
 |   |-- android-project-setup/
 |   |-- android-debugger-agent/
+|   |-- android-emulator-browser/
 |   |-- android-app-actions/
 |   |-- material3-adaptive-ui/
 |   |-- compose-ui-patterns/
@@ -682,6 +776,10 @@ The plugin is intentionally conservative about claiming success.
 
 - Build failures are fixed before UI interaction.
 - Device workflows use an explicit adb serial.
+- Browser previews prove that a real Android frame is rendering, not only that
+  a localhost page loaded.
+- Browser-preview input forwarding is verified by pairing the browser action
+  with Android focus or UI-tree evidence.
 - UI trees are refreshed after navigation or layout changes.
 - User-visible flows are replayed after a patch.
 - Compose performance review starts with code and state flow.

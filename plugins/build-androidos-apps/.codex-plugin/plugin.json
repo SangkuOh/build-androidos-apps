@@ -1,6 +1,6 @@
 {
   "name": "build-androidos-apps",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Build Android apps with workflows for Kotlin and Compose setup, Material 3 UI, refactors, App Actions, emulator browser previews, debugging, performance profiling, and leak investigation.",
   "author": {
     "name": "SangkuOh",

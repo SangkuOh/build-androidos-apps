@@ -1,0 +1,23 @@
+{
+  "name": "build-androidos-apps",
+  "interface": {
+    "displayName": "Build AndroidOS Apps"
+  },
+  "plugins": [
+    {
+      "name": "build-androidos-apps",
+      "source": {
+        "source": "local",
+        "path": "./plugins/build-androidos-apps"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL",
+        "products": [
+          "CODEX"
+        ]
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

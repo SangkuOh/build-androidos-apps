@@ -67,10 +67,10 @@ A single task can activate more than one skill. For example:
 
 ## Current Release
 
-`v0.1.2` makes the Android browser mirror explicitly side-panel visible. The
-`android-emulator-browser` helper now prints the exact URL to open in the
-visible Codex side-panel browser, and the skill requires browser visibility
-before reporting preview success.
+`v0.1.3` packages the repository as a Codex Git marketplace. The repository now
+exposes the plugin from `plugins/build-androidos-apps` through
+`.agents/plugins/marketplace.json`, while preserving the side-panel browser
+guidance from `v0.1.2`.
 
 ## Included Skills
 
@@ -711,7 +711,21 @@ active adb target.
 
 ## Install From This Repository
 
-Clone the plugin into a local Codex plugin source directory:
+Install the repository as a Codex Git marketplace:
+
+```bash
+codex plugin marketplace add SangkuOh/build-androidos-apps --ref v0.1.3
+codex plugin add build-androidos-apps@build-androidos-apps
+codex plugin list
+```
+
+The repository includes `.agents/plugins/marketplace.json`, so Codex can track
+it as a marketplace source directly. The marketplace exposes the plugin at the
+`plugins/build-androidos-apps` path and gates it to Codex through the same
+`products: ["CODEX"]` policy shape used by Codex-native development plugins.
+
+For local development, clone the plugin into a local Codex plugin source
+directory:
 
 ```bash
 mkdir -p ~/plugins
@@ -719,30 +733,12 @@ git clone https://github.com/SangkuOh/build-androidos-apps.git \
   ~/plugins/build-androidos-apps
 ```
 
-Expose the source through your personal Codex marketplace at
-`~/.agents/plugins/marketplace.json`. If the file already exists, merge the
-following entry into its `plugins` array instead of replacing unrelated
-entries:
-
-```json
-{
-  "name": "build-androidos-apps",
-  "source": {
-    "source": "local",
-    "path": "./plugins/build-androidos-apps"
-  },
-  "policy": {
-    "installation": "AVAILABLE",
-    "authentication": "ON_INSTALL"
-  },
-  "category": "Developer Tools"
-}
-```
-
-Install the plugin from the configured personal marketplace:
+Register the local repository as its own Codex marketplace, then install the
+plugin from that marketplace:
 
 ```bash
-codex plugin add build-androidos-apps@personal
+codex plugin marketplace add ~/plugins/build-androidos-apps
+codex plugin add build-androidos-apps@build-androidos-apps
 codex plugin list
 ```
 
@@ -750,8 +746,9 @@ To update an existing local install:
 
 ```bash
 git -C ~/plugins/build-androidos-apps pull --ff-only
-codex plugin remove build-androidos-apps@personal
-codex plugin add build-androidos-apps@personal
+codex plugin marketplace upgrade build-androidos-apps
+codex plugin remove build-androidos-apps@build-androidos-apps
+codex plugin add build-androidos-apps@build-androidos-apps
 ```
 
 Start a new Codex thread after installation so the new plugin skills are
@@ -761,24 +758,29 @@ available to the conversation.
 
 ```text
 .
-|-- .codex-plugin/
-|   `-- plugin.json
-|-- agents/
-|   `-- openai.yaml
-|-- assets/
-|   |-- app-icon.png
-|   `-- build-androidos-apps-small.svg
-|-- skills/
-|   |-- android-project-setup/
-|   |-- android-debugger-agent/
-|   |-- android-emulator-browser/
-|   |-- android-app-actions/
-|   |-- material3-adaptive-ui/
-|   |-- compose-ui-patterns/
-|   |-- compose-view-refactor/
-|   |-- compose-performance-audit/
-|   |-- android-runtime-performance/
-|   `-- android-memory-leaks/
+|-- .agents/
+|   `-- plugins/
+|       `-- marketplace.json
+|-- plugins/
+|   `-- build-androidos-apps/
+|       |-- .codex-plugin/
+|       |   `-- plugin.json
+|       |-- agents/
+|       |   `-- openai.yaml
+|       |-- assets/
+|       |   |-- app-icon.png
+|       |   `-- build-androidos-apps-small.svg
+|       `-- skills/
+|           |-- android-project-setup/
+|           |-- android-debugger-agent/
+|           |-- android-emulator-browser/
+|           |-- android-app-actions/
+|           |-- material3-adaptive-ui/
+|           |-- compose-ui-patterns/
+|           |-- compose-view-refactor/
+|           |-- compose-performance-audit/
+|           |-- android-runtime-performance/
+|           `-- android-memory-leaks/
 |-- LICENSE
 `-- README.md
 ```
